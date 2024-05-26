@@ -1,0 +1,24 @@
+# Files to ignore:
+
+# Salesforce cache
+.localdevserver/
+.sf/
+.sfdx/
+.vscode/
+scripts/
+sfdx-project.json
+
+# Aura and LWC cache
+.eslintrc.json 
+jsconfig.json 
+
+# Git cache
+.husky
+.forceignore
+
+# Vs Code cache
+.prettierignore
+.prettierrc
+config
+jest.config.js 
+package.json 
