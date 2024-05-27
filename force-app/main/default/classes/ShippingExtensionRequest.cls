@@ -8,7 +8,7 @@
 public class ShippingExtensionRequest {
 
     // Set endpoint. In "real world" scenarios, use Custom Metadata records to hold this value
-    private final String ENDPOINT = 'https://mpd5d817678957b1b475.free.beeceptor.com/shippment';
+    private final String ENDPOINT = 'https://example.com';
 
     // Set util consts
     private final Integer SUCCESS_STATUS = 200;
