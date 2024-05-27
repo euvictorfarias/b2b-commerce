@@ -47,10 +47,12 @@ Wrapper class that holds the data model needed to build the shipping related rec
 
 
 ## RegisteredExternalService Record Mapping
-- DeveloperName: "COMPUTE_SHIPPING"
+- ApexClassName: "ShippingExtension"
+- DeveloperName: "ShippingExtension"
+- ExtensionPointName: "Commerce_Domain_Shipping_CartCalculator"
 - ExternalServiceProviderId: (Id of the ShippingExtension class)
-- ExternalServiceProviderType: "Shipment"
-- MasterLabel: "COMPUTE_SHIPPING"
+- ExternalServiceProviderType: "Extension"
+- MasterLabel: "Shipping Extension"
 
 
 ## Step by Step
