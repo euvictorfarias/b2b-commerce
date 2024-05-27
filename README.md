@@ -1,34 +1,81 @@
-# B2B Commerce
+# b2b-extension-tax-provider
 
-This repository were created to share Salesforce content related to the B2B Commerce. Each branch holds a specific scenario and its related code.
+This branch contains the necessary classes to implement a Tax Provider by the extension approach. For pedagogical purposes, all classes are duly commented. Please read all this file before start implementating this feature.
 
-## main
 
-Empty branch.
+## Classes
 
-## helper-classes
+### CartAdjustmentWrapper
+Wrapper class that holds the data model needed to build the cart ajdustment related records. 
+### TaxExtension
+Main class for this feature, is called to control the external service callout and build needed records.
+### TaxExtensionRequest
+Class called by TaxExtension Apex Class to call the external service.
+### TaxWrapper
+Wrapper class that holds the data model needed to build the tax related records. 
 
-This branch is used to store general utility classes that can be used at other branches.
 
-## b2b-extension-shipping-provider
+## JSON Data Model
+```
+{
+    "SKU1": {
+        "amount": 0.50,
+        "rate": 0.06,
+        "taxName": "GST"
+    },
+    "SKU2": {
+        "amount": 0.50,
+        "rate": 0.02,
+        "taxName": "GST"
+    
+    },
+    "SKU3": {
+        "amount": 0.10,
+        "rate": 0.06,
+        "taxName": "GST"
+    
+    },
+    "SKU4": {
+        "amount": 0.10,
+        "rate": 0.04,
+        "taxName": "GST"
+    
+    },
+    "SKU5": {
+        "amount": 0.10,
+        "rate": 0.02,
+        "taxName": "GST"
+    
+    }
+}
+```
 
-Branch created to implement a b2b Shipping Provider for Salesforce stores through extension feature.
 
-## b2b-extension-tax-provider
+## SOQL Search to find TaxExtension Apex Class Id
+```
+[SELECT Id, Name FROM ApexClass WHERE Name = 'TaxExtension']
+```
 
-Branch created to implement a b2b Tax Provider for Salesforce stores through extension feature.
 
-## b2b-integration-shipping-provider
+## RegisteredExternalService Record Mapping
+- ApexClassName: "TaxExtension"
+- DeveloperName: "TaxExtension"
+- ExtensionPointName: "Commerce_Domain_Tax_CartCalculator"
+- ExternalServiceProviderId: (Id of the TaxExtension class)
+- ExternalServiceProviderType: "Extension"
+- MasterLabel: "Tax Extension"
 
-Branch created to implement a b2b Shipping Provider for Salesforce stores through integration feature.
 
-## b2b-integration-tax-provider
+## Step by Step
+- Create all the classes in the desired environment;
+- Configure the ENDPOINT constant in the TaxExtensionRequest class;
+- If the JSON used in your external service is different from what was shown above, configure TaxExtensionRequest and TaxWrapper Apex Classes to correctly receive the data;
+- Perform the SOQL search above and save the TaxExtension class Id;
+- Through the Developer Console or Workbench, create a record for the RegisteredExternalService Object mapped above;
+- Access the store registration and click on "Administration" and then on "Tax Calculation". In the "Custom Providers" section, in the "Tax - Cart & Checkout Calculation" field, click on "Select Provider". Select the TaxExtension class, click "next" and then "finish".
 
-Branch created to implement a b2b Tax Provider for Salesforce stores through integration feature.
 
 ## References
 
 The code shared on this repository were created by myself and based on the following documentation:
-- https://developer.salesforce.com/docs/commerce/salesforce-commerce/guide/d2c-comm-extensions-intro.html
-- https://github.com/tzarrsf/b2b-commerce-gtk-dev/tree/main/force-app/main/default/classes
-- https://github.com/forcedotcom/commerce-on-lightning/tree/legacy/examples/b2b/checkout/integrations
+- https://github.com/forcedotcom/commerce-extensibility/blob/releases/248/commerce/domain/tax/cart/calculator/classes/TaxCartCalculatorSample.cls
