@@ -1,34 +1,40 @@
-# B2B Commerce
+# helper-classes
 
-This repository were created to share Salesforce content related to the B2B Commerce. Each branch holds a specific scenario and its related code.
+This branch stores all utility Apex Classes that can be used by the other branches from this repository.
 
-## main
+## AbstractDmlOperations
 
-Empty branch.
+Abstract class created to allow child classes to make general DML operations.
 
-## helper-classes
+## ListFilter
 
-This branch is used to store general utility classes that can be used at other branches.
+Utility class that make List filters.
 
-## b2b-extension-shipping-provider
+## ListTransformer
 
-Branch created to implement a b2b Shipping Provider for Salesforce stores through extension feature.
+Utility class that make List transformations.
 
-## b2b-extension-tax-provider
+## ListValidator
 
-Branch created to implement a b2b Tax Provider for Salesforce stores through extension feature.
+Utility class that make List validations.
 
-## b2b-integration-shipping-provider
+## MapTransformer
 
-Branch created to implement a b2b Shipping Provider for Salesforce stores through integration feature.
+Utility class that make Map transformations.
 
-## b2b-integration-tax-provider
+## MapValidator
 
-Branch created to implement a b2b Tax Provider for Salesforce stores through integration feature.
+Utility class that make Map validations.
 
-## References
+## SetFilter
 
-The code shared on this repository were created by myself and based on the following documentation:
-- https://developer.salesforce.com/docs/commerce/salesforce-commerce/guide/d2c-comm-extensions-intro.html
-- https://github.com/tzarrsf/b2b-commerce-gtk-dev/tree/main/force-app/main/default/classes
-- https://github.com/forcedotcom/commerce-on-lightning/tree/legacy/examples/b2b/checkout/integrations
+Utility class that make Set filters.
+
+## SetTransformer
+
+Utility class that make Set transformations.
+
+## SetValidator
+
+Utility class that make Set validations.
+
