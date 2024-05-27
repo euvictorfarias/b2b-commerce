@@ -9,7 +9,7 @@ public class TaxIntegrationRequest {
 
     // Define constants
     private final Integer SUCCESSFUL_REQUEST = 200;
-    private final String ENDPOINT = 'https://mpd5d817678957b1b475.free.beeceptor.com/data';
+    private final String ENDPOINT = 'https://example.com';
     
     public Map<String, TaxWrapper> getTaxes() {
 
