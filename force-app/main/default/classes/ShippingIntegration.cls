@@ -11,16 +11,32 @@
 
 global class ShippingIntegration implements sfdc_checkout.CartShippingCharges {
 
+    // Define custom exception
     public class ShippingIntegrationException extends Exception {}
 
+    // Define global variables
+    Map<String, OrderDeliveryMethod> orderDeliveryMethodsByName;
+    
+    // Define utility classes 
+    CartDeliveryGroupMethodRepository cartDeliveryGroupMethodRepository;
+    CartDeliveryGroupRepository cartDeliveryGroupRepository;
+    CartValidationOutputRepository cartValidationOutputRepository;
+    OrderDeliveryMethodRepository orderDeliveryMethodRepository;
     Product2Repository product2Repository;
     ShippingIntegrationRequest shippingIntegrationRequest;    
-    Map<String, OrderDeliveryMethod> orderDeliveryMethodsByName;
 
+    // Instantiate global variables and utility classes
     public ShippingIntegration() {
+        
+        this.orderDeliveryMethodsByName =  new Map<String, OrderDeliveryMethod>();
+
+        this.cartDeliveryGroupMethodRepository = new CartDeliveryGroupMethodRepository();
+        this.cartDeliveryGroupRepository = new CartDeliveryGroupRepository();
+        this.cartValidationOutputRepository = new CartValidationOutputRepository();
+        this.orderDeliveryMethodRepository = new OrderDeliveryMethodRepository();
         this.product2Repository = new Product2Repository();
         this.shippingIntegrationRequest = new ShippingIntegrationRequest();
-        this.orderDeliveryMethodsByName =  new Map<String, OrderDeliveryMethod>();
+
     }
 
 
@@ -31,11 +47,11 @@ global class ShippingIntegration implements sfdc_checkout.CartShippingCharges {
         try {
 
             // Retrieve Cart Delivery Group record related to the Cart
-            CartDeliveryGroup cartDeliveryGroup = [SELECT Id FROM CartDeliveryGroup WHERE CartId = :cartId LIMIT 1];
+            CartDeliveryGroup cartDeliveryGroup = cartDeliveryGroupRepository.findByCartId(cartId);
 
             // Retrieve and delete all Cart Delivery Group records related to the Cart
-            List<CartDeliveryGroupMethod> cartDeliveryGroupMethods = [SELECT Id FROM CartDeliveryGroupMethod WHERE CartDeliveryGroupId = :cartDeliveryGroup.Id];
-            delete cartDeliveryGroupMethods;
+            List<CartDeliveryGroupMethod> cartDeliveryGroupMethods = cartDeliveryGroupMethodRepository.findByCartDeliveryGroupId(cartDeliveryGroup.Id);
+            cartDeliveryGroupMethodRepository.deleteRecords(cartDeliveryGroupMethods);
 
             // Call the exernal service
             List<ShippingOptionsWrapper> returnedShippingOptions = shippingIntegrationRequest.getShippingOptions();
@@ -44,7 +60,7 @@ global class ShippingIntegration implements sfdc_checkout.CartShippingCharges {
             setOrderDeliveryMethodsByName(returnedShippingOptions);
 
             // Create a Cart Delivery Group Method record for every shipping option returned from the external service
-            populateCartDeliveryGroupMethodWithShippingOptions(
+            createCartDeliveryGroupMethods(
                 returnedShippingOptions,
                 cartDeliveryGroup
             );
@@ -69,7 +85,7 @@ global class ShippingIntegration implements sfdc_checkout.CartShippingCharges {
                 Type = 'Shipping'
             );
 
-            insert cartValidationError;
+            cartValidationOutputRepository.insertRecords(new List<CartValidationOutput>{cartValidationError});
 
         }
 
@@ -81,25 +97,29 @@ global class ShippingIntegration implements sfdc_checkout.CartShippingCharges {
 
     private void setOrderDeliveryMethodsByName(List<ShippingOptionsWrapper> shippingOptions) {
 
+        // Get Shipping Product
         Product2 shippingProduct = getShippingProduct();
 
+        // Instantiate Order Delivery Method collections to insert and update
         List<OrderDeliveryMethod> orderDeliveryMethodsToInsert = new List<OrderDeliveryMethod>();
         List<OrderDeliveryMethod> orderDeliveryMethodsToUpdate = new List<OrderDeliveryMethod>();
 
+        // Instantiate and build shippingOptionNames list
         List<String> shippingOptionNames = new List<String>();
 
         for(ShippingOptionsWrapper shippingOption : shippingOptions) {
             shippingOptionNames.add(shippingOption.name);
         }
 
-        List<OrderDeliveryMethod> orderDeliveryMethods = [
-            SELECT Id, ProductId, Carrier, ClassOfService FROM OrderDeliveryMethod WHERE Name IN :shippingOptionNames
-        ];
+        // Get existing Order Delivery Method records
+        List<OrderDeliveryMethod> orderDeliveryMethods = orderDeliveryMethodRepository.findByNames(shippingOptionNames);  
 
+        // Build orderDeliveryMethodsByName collection
         for(OrderDeliveryMethod orderDeliveryMethod : orderDeliveryMethods) {
             orderDeliveryMethodsByName.put(orderDeliveryMethod.name, orderDeliveryMethod);
         }
 
+        // Create or update an Order Delivery Method for each shipping record returned by the external service
         for(ShippingOptionsWrapper shippingOption : shippingOptions) {
 
             if(!orderDeliveryMethodsByName.containsKey(shippingOption.name)) {
@@ -129,11 +149,12 @@ global class ShippingIntegration implements sfdc_checkout.CartShippingCharges {
 
         }
 
+        // Create and/or update Order Delivery Method records
         if(!orderDeliveryMethodsToInsert.isEmpty()) {
-            insert orderDeliveryMethodsToInsert;
+            orderDeliveryMethodRepository.insertRecords(orderDeliveryMethodsToInsert);
         }
         if(!orderDeliveryMethodsToUpdate.isEmpty()) {
-            update orderDeliveryMethodsToUpdate;
+            orderDeliveryMethodRepository.updateRecords(orderDeliveryMethodsToUpdate);
         }
 
     }
@@ -153,8 +174,9 @@ global class ShippingIntegration implements sfdc_checkout.CartShippingCharges {
 
     }
 
-    private void populateCartDeliveryGroupMethodWithShippingOptions(List<ShippingOptionsWrapper> shippingOptions, CartDeliveryGroup cartDeliveryGroup) {
+    private void createCartDeliveryGroupMethods(List<ShippingOptionsWrapper> shippingOptions, CartDeliveryGroup cartDeliveryGroup) {
 
+        // Instantiate and build Cart Delivery Group Method records to insert
         List<CartDeliveryGroupMethod> cartDeliveryGroupMethods = new List<CartDeliveryGroupMethod>();
 
         for(ShippingOptionsWrapper shippingOption : shippingOptions) {
@@ -172,7 +194,8 @@ global class ShippingIntegration implements sfdc_checkout.CartShippingCharges {
 
         }
 
-        insert cartDeliveryGroupMethods;
+        // Insert Cart Delivery Group Method records
+        cartDeliveryGroupMethodRepository.insertRecords(cartDeliveryGroupMethods);
 
     }
 
