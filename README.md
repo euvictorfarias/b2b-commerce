@@ -1,34 +1,29 @@
-# B2B Commerce
+# b2b-extension-shipping-provider
 
-This repository were created to share Salesforce content related to the B2B Commerce. Each branch holds a specific scenario and its related code.
+This branch stores all Apex Classes needed to implement a Shipping Provider with Extension feature.
 
-## main
+## AbstractDmlOperations
 
-Empty branch.
+Abstract class created to allow child classes to make general DML operations.
 
-## helper-classes
+## Product2Repository
 
-This branch is used to store general utility classes that can be used at other branches.
+Class used to make SQOL queries and DML operations on Product2 Object.
 
-## b2b-extension-shipping-provider
+## ShippingExtension
 
-Branch created to implement a b2b Shipping Provider for Salesforce stores through extension feature.
+Main class for this feature, is called to control the external service callout and build needed records.
 
-## b2b-extension-tax-provider
+## ShippingExtensionRequest
 
-Branch created to implement a b2b Tax Provider for Salesforce stores through extension feature.
+Class called by ShippingExtension Apex Class to call the external service.
 
-## b2b-integration-shipping-provider
+## ShippingOptionsWrapper
 
-Branch created to implement a b2b Shipping Provider for Salesforce stores through integration feature.
-
-## b2b-integration-tax-provider
-
-Branch created to implement a b2b Tax Provider for Salesforce stores through integration feature.
+Wrapper class that holds the data model needed to build the shipping related records.
 
 ## References
 
 The code shared on this repository were created by myself and based on the following documentation:
-- https://developer.salesforce.com/docs/commerce/salesforce-commerce/guide/d2c-comm-extensions-intro.html
-- https://github.com/tzarrsf/b2b-commerce-gtk-dev/tree/main/force-app/main/default/classes
-- https://github.com/forcedotcom/commerce-on-lightning/tree/legacy/examples/b2b/checkout/integrations
+- https://github.com/forcedotcom/commerce-extensibility/blob/releases/248/commerce/domain/shipping/cart/calculator/classes/ShippingCartCalculatorSample.cls
+
