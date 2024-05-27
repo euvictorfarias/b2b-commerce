@@ -29,6 +29,12 @@ Branch created to implement a b2b Tax Provider for Salesforce stores through int
 ## References
 
 The code shared on this repository were created by myself and based on the following documentation:
+
+### General References
 - https://developer.salesforce.com/docs/commerce/salesforce-commerce/guide/d2c-comm-extensions-intro.html
-- https://github.com/tzarrsf/b2b-commerce-gtk-dev/tree/main/force-app/main/default/classes
-- https://github.com/forcedotcom/commerce-on-lightning/tree/legacy/examples/b2b/checkout/integrations
+### Shipping References
+- https://github.com/forcedotcom/commerce-extensibility/blob/releases/248/commerce/domain/shipping/cart/calculator/classes/ShippingCartCalculatorSample.cls
+- https://github.com/forcedotcom/commerce-on-lightning/blob/legacy/examples/b2b/checkout/integrations/classes/B2BDeliverySample.cls
+### Tax References
+- https://github.com/forcedotcom/commerce-extensibility/blob/releases/248/commerce/domain/tax/cart/calculator/classes/TaxCartCalculatorSample.cls
+- https://github.com/forcedotcom/commerce-on-lightning/blob/legacy/examples/b2b/checkout/integrations/classes/B2BTaxSample.cls
