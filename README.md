@@ -63,7 +63,12 @@ Wrapper class that holds the data model needed to build the shipping related rec
 
 ## Step by Step
 - Create all the classes in the desired environment;
-- Configure the ENDPOINT constant in the ShippingExtensionRequest class;
+- Configure the ENDPOINT constant in the ShippingIntegrationRequest class;
 - If the JSON used in your external service is different from what was shown above, configure ShippingIntegrationRequest and ShippingOptionsWrapper Apex Classes to correctly receive the data;
 - Perform the SOQL search above and save the ShippingIntegration class Id;
 - Through the Developer Console or Workbench, create a record for the RegisteredExternalService Object mapped above.
+
+## References
+
+The code shared on this repository were created by myself and based on the following documentation:
+- https://github.com/forcedotcom/commerce-on-lightning/blob/legacy/examples/b2b/checkout/integrations/classes/B2BDeliverySample.cls
