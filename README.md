@@ -49,7 +49,9 @@ Wrapper class that holds the data model needed to build the shipping related rec
 
 
 ## SOQL Search to find ShippingIntegration Apex Class Id
-- [SELECT Id, Name FROM ApexClass WHERE Name = 'ShippingIntegration']
+```
+[SELECT Id, Name FROM ApexClass WHERE Name = 'ShippingIntegration']
+```
 
 
 ## RegisteredExternalService Record Mapping
