@@ -1,34 +1,57 @@
-# B2B Commerce
+# b2b-integration-tax-provider
 
-This repository were created to share Salesforce content related to the B2B Commerce. Each branch holds a specific scenario and its related code.
+This branch stores all Apex Classes needed to implement a Tax Provider with Integration feature.
 
-## main
+## AbstractDmlOperations
 
-Empty branch.
+Abstract class created to allow child classes to make general DML operations.
 
-## helper-classes
+## CartDeliveryGroupRepository
 
-This branch is used to store general utility classes that can be used at other branches.
+Class used to make SQOL queries and DML operations on CartDeliveryGroup Object.
 
-## b2b-extension-shipping-provider
+## CartItemRepository
 
-Branch created to implement a b2b Shipping Provider for Salesforce stores through extension feature.
+Class used to make SQOL queries and DML operations on CartItem Object.
 
-## b2b-extension-tax-provider
+## CartTaxBuilder
 
-Branch created to implement a b2b Tax Provider for Salesforce stores through extension feature.
+This class contains methods used to create CartTax records.
 
-## b2b-integration-shipping-provider
+## CartTaxRepository
 
-Branch created to implement a b2b Shipping Provider for Salesforce stores through integration feature.
+Class used to make SQOL queries and DML operations on CartTax Object.
 
-## b2b-integration-tax-provider
+## CartValidationOutputBuilder
 
-Branch created to implement a b2b Tax Provider for Salesforce stores through integration feature.
+This class contains methods used to create CartValidationOutput records.
+
+## CartValidationOutputRepository
+
+Class used to make SQOL queries and DML operations on CartValidationOutput Object.
+
+## ListTransformer
+
+Utility class that make List transformations.
+
+## ListValidator
+
+Utility class that make List validations.
+
+## TaxIntegration
+
+Main class for this feature, is called to control the external service callout and build needed records.
+
+## TaxIntegrationRequest
+
+Class called by TaxIntegration Apex Class to call the external service.
+
+## TaxWrapper
+
+Wrapper class that holds the data model needed to build the tax related records.
 
 ## References
 
 The code shared on this repository were created by myself and based on the following documentation:
-- https://developer.salesforce.com/docs/commerce/salesforce-commerce/guide/d2c-comm-extensions-intro.html
-- https://github.com/tzarrsf/b2b-commerce-gtk-dev/tree/main/force-app/main/default/classes
-- https://github.com/forcedotcom/commerce-on-lightning/tree/legacy/examples/b2b/checkout/integrations
+- https://github.com/forcedotcom/commerce-on-lightning/blob/legacy/examples/b2b/checkout/integrations/classes/B2BTaxSample.cls
+
