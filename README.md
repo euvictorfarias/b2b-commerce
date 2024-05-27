@@ -67,7 +67,7 @@ Wrapper class that holds the data model needed to build the tax related records.
 ```
 
 
-## SOQL Search to find ShippingIntegration Apex Class Id
+## SOQL Search to find TaxIntegration Apex Class Id
 ```
 [SELECT Id, Name FROM ApexClass WHERE Name = 'TaxIntegration']
 ```
