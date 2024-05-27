@@ -1,34 +1,67 @@
-# B2B Commerce
+# b2b-integration-shipping-provider
 
-This repository were created to share Salesforce content related to the B2B Commerce. Each branch holds a specific scenario and its related code.
+This branch contains the necessary classes to implement a Shipping Provider by the integration approach. For pedagogical purposes, all classes are duly commented. Please read all this file before start implementating this feature.
 
-## main
 
-Empty branch.
+## Classes
 
-## helper-classes
+### AbstractDmlOperations
+Abstract class created to allow child classes to make general DML operations.
+### CartDeliveryGroupMethodRepository
+Class used to make SQOL queries and DML operations on CartDeliveryGroupMethod Object.
+### CartDeliveryGroupRepository
+Class used to make SQOL queries and DML operations on CartDeliveryGroup Object.
+### CartValidationOutputRepository
+Class used to make SQOL queries and DML operations on CartValidationOutput Object.
+### OrderDeliveryGroupMethodRepository
+Class used to make SQOL queries and DML operations on OrderDeliveryGroupMethod Object.
+### Product2Repository
+Class used to make SQOL queries and DML operations on Product2 Object.
+### ShippingIntegration
+Main class for this feature, is called to control the external service callout and build needed records.
+### ShippingIntegrationRequest
+Class called by ShippingIntegration Apex Class to call the external service.
+### ShippingOptionsWrapper
+Wrapper class that holds the data model needed to build the shipping related records. 
 
-This branch is used to store general utility classes that can be used at other branches.
 
-## b2b-extension-shipping-provider
+## JSON Data Model
+```
+[
+  {
+    "name": "Delivery Method 1",
+    "serviceName": "Test Carrier 1",
+    "serviceCode": "SNC9600",
+    "referenceNumber": "123456789",
+    "shipmentCost": 11.99,
+    "otherCost": 5.99
+  },
+  {
+    "name": "Delivery Method 2",
+    "serviceName": "Test Carrier 2",
+    "serviceCode": "SNC9600",
+    "referenceNumber": "987654321",
+    "shipmentCost": 15.99,
+    "otherCost": 6.99
+  }
+]
+```
 
-Branch created to implement a b2b Shipping Provider for Salesforce stores through extension feature.
 
-## b2b-extension-tax-provider
+## SOQL Search to find ShippingIntegration Apex Class Id
+- [SELECT Id, Name FROM ApexClass WHERE Name = 'ShippingIntegration']
 
-Branch created to implement a b2b Tax Provider for Salesforce stores through extension feature.
 
-## b2b-integration-shipping-provider
+## RegisteredExternalService Record Mapping
+- DeveloperName: "COMPUTE_SHIPPING"
+- ExternalServiceProviderId: (Id of the ShippingIntegration class)
+- ExternalServiceProviderType: "Shipment"
+- MasterLabel: "COMPUTE_SHIPPING"
 
-Branch created to implement a b2b Shipping Provider for Salesforce stores through integration feature.
 
-## b2b-integration-tax-provider
-
-Branch created to implement a b2b Tax Provider for Salesforce stores through integration feature.
-
-## References
-
-The code shared on this repository were created by myself and based on the following documentation:
-- https://developer.salesforce.com/docs/commerce/salesforce-commerce/guide/d2c-comm-extensions-intro.html
-- https://github.com/tzarrsf/b2b-commerce-gtk-dev/tree/main/force-app/main/default/classes
-- https://github.com/forcedotcom/commerce-on-lightning/tree/legacy/examples/b2b/checkout/integrations
+## Step by Step
+- Create all the classes in the desired environment;
+- Configure the ENDPOINT constant in the ShippingExtensionRequest class;
+- If the JSON used in your external service is different from what was shown above, configure ShippingIntegrationRequest and ShippingOptionsWrapper Apex Classes to correctly receive the data;
+- Perform the SOQL search above and save the ShippingIntegration class Id;
+- Through the Developer Console or Workbench, create a record for the RegisteredExternalService Object mapped above.
