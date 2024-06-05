@@ -48,7 +48,7 @@ $RECYCLE.BIN/
 .husky
 .vscode 
 config
-force-app 
+.eslintrc.json
 scripts 
 .forceignore
 .prettierignore
