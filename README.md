@@ -1,40 +1,56 @@
-# B2B Commerce
+# b2b-integration-inventory-provider
 
-This repository were created to share Salesforce content related to the B2B Commerce. Each branch holds a specific scenario and its related code.
+This branch contains the necessary classes to implement a Inventory Provider by the integration approach. For pedagogical purposes, all classes are duly commented. Please read all this file before start implementating this feature.
 
-## main
 
-Empty branch.
+## Classes
 
-## helper-classes
+### AbstractDmlOperations
+Abstract class created to allow child classes to make general DML operations.
+### CartItemRepository
+Class used to make SQOL queries and DML operations on CartItem Object.
+### CartValidationOutputRepository
+Class used to make SQOL queries and DML operations on CartValidationOutput Object.
+### InventoryIntegration
+Main class for this feature, is called to control the external service callout and build needed records.
+### InventoryIntegrationRequest
+Class called by InventoryIntegration Apex Class to call the external service.
+### ListValidator
+Utility class called to make list collection validations
+### MapValidator
+Utility class called to make map collection validations
 
-This branch is used to store general utility classes that can be used at other branches.
 
-## b2b-extension-shipping-provider
+## JSON Data Model
+```
+{
+    "SKU-25-10028": 9999.00, 
+    "SKU-25-10030":9999.00
+}
+```
 
-Branch created to implement a b2b Shipping Provider for Salesforce stores through extension feature.
 
-## b2b-extension-tax-provider
+## SOQL Search to find InventoryIntegration Apex Class Id
+```
+[SELECT Id, Name FROM ApexClass WHERE Name = 'InventoryIntegration']
+```
 
-Branch created to implement a b2b Tax Provider for Salesforce stores through extension feature.
 
-## b2b-integration-shipping-provider
+## RegisteredExternalService Record Mapping
+- DeveloperName: "COMPUTE_INVENTORY"
+- ExternalServiceProviderId: (Id of the InventoryIntegration class)
+- ExternalServiceProviderType: "Inventory"
+- MasterLabel: "COMPUTE_INVENTORY"
 
-Branch created to implement a b2b Shipping Provider for Salesforce stores through integration feature.
 
-## b2b-integration-tax-provider
-
-Branch created to implement a b2b Tax Provider for Salesforce stores through integration feature.
+## Step by Step
+- Create all the classes in the desired environment;
+- Configure the ENDPOINT constant in the InventoryIntegrationRequest class;
+- If the JSON used in your external service is different from what was shown above, configure InventoryIntegrationRequest Apex Classe to correctly receive the data;
+- Perform the SOQL search above and save the InventoryIntegration class Id;
+- Through the Developer Console or Workbench, create a record for the RegisteredExternalService Object mapped above.
 
 ## References
 
 The code shared on this repository were created by myself and based on the following documentation:
-
-### General References
-- https://developer.salesforce.com/docs/commerce/salesforce-commerce/guide/d2c-comm-extensions-intro.html
-### Shipping References
-- https://github.com/forcedotcom/commerce-extensibility/blob/releases/248/commerce/domain/shipping/cart/calculator/classes/ShippingCartCalculatorSample.cls
-- https://github.com/forcedotcom/commerce-on-lightning/blob/legacy/examples/b2b/checkout/integrations/classes/B2BDeliverySample.cls
-### Tax References
-- https://github.com/forcedotcom/commerce-extensibility/blob/releases/248/commerce/domain/tax/cart/calculator/classes/TaxCartCalculatorSample.cls
-- https://github.com/forcedotcom/commerce-on-lightning/blob/legacy/examples/b2b/checkout/integrations/classes/B2BTaxSample.cls
+- https://github.com/forcedotcom/commerce-on-lightning/blob/legacy/examples/b2b/checkout/integrations/classes/B2BCheckInventorySample.cls
