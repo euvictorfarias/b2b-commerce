@@ -9,7 +9,7 @@ public class InventoryIntegrationRequest {
 
     // Define the constants for the class
     private final String ENDPOINT = 'https://example.com';
-    private final INTEGRE SUCCESS_CODE = 200;
+    private final INTEGER SUCCESS_CODE = 200;
     
     // This method will call the external service and return the product quantities mapped by SKU field
     public Map<String, Object> getQuantities() {

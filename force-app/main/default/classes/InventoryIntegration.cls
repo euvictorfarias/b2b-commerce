@@ -27,7 +27,7 @@ global class InventoryIntegration implements sfdc_checkout.CartInventoryValidati
     InventoryIntegrationRequest inventoryIntegrationRequest;
 
     // Instantiate class variables and auxiliar apex classes
-    public InventoryIntegration() {
+    global InventoryIntegration() {
 
         this.integrationStatus = new sfdc_checkout.IntegrationStatus();
 
@@ -43,8 +43,7 @@ global class InventoryIntegration implements sfdc_checkout.CartInventoryValidati
 
             // Get Cart Item records related to the Cart
             List<CartItem> cartItems = cartItemRepository.findByCartId(cartId);
-            Map<String, CartItem> cartItemsBySku = (Map<String, CartItem>) MapTransformer.indexListByField(cartItems, 'Id');
-
+            
             // Stop class execution if there are no Cart Item records
             if(ListValidator.isEmptyOrNull(cartItems)) {
 

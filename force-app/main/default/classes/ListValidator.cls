@@ -1,11 +1,11 @@
 /**
  * @author: Carlos Farias
- * @version: 1.0
+ * @version: 1.0.1
  * 
  * @description: Utility class created to validate List collections.
  */
 
- public class ListValidator {
+public class ListValidator {
     
     public static Boolean isEmptyOrNull(List<SObject> records) {
         return records.isEmpty() || records == null;

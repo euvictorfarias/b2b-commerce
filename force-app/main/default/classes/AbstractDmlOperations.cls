@@ -1,11 +1,23 @@
 /**
  * @author: Carlos Farias 
- * @version: 1.0
+ * @version: 1.0.1
  * 
  * @description: Abstract class created to allow child classes to execute DML operations.
  */
 
- public abstract class AbstractDmlOperations {
+public abstract class AbstractDmlOperations {
+
+    virtual
+    public SObject insertRecord(SObject record) {
+
+        if(record == null) {
+            return null;
+        }
+
+        insertRecords(new List<SObject>{record});
+        return record;
+
+    }
 
     virtual
     public List<SObject> insertRecords(List<SObject> records) {
