@@ -1,0 +1,25 @@
+<template>
+    
+    <lightning-card title="Active Checkouts Example" icon-name="custom:custom14">
+
+        <div class="slds-m-around_medium">
+
+            <p>You should see the template populate as each user clicks the Checkout button on the cart page.</p>
+
+            <template for:each={_checkoutsInProgress} for:item="item">
+
+                <ul
+                    key={item.data.payload.Cart_Session_ID__c}
+                    if:true={item.data}>
+
+                    <li>Session Id: {item.data.payload.Cart_Session_ID__c}</li>
+
+                </ul>
+
+            </template>
+
+        </div>
+
+    </lightning-card>
+
+</template>
